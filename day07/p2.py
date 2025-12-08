@@ -1,0 +1,27 @@
+from typing import List
+
+def solve(inp: List[str]):
+  hgt = len(inp)
+  arr = [[x for x in ln] for ln in inp]
+  for i in range(hgt):
+    row = arr[i]
+    for j in range(len(row)):
+      if row[j] == '.': row[j] = 0
+  
+  for i in range(len(inp[0])):
+    if arr[0][i] != 'S': continue
+    arr[1][i] = 1
+    break
+  
+  for i in range(1, hgt - 1):
+    row = arr[i]
+    for j in range(len(row)):
+      if row[j] == 0 or row[j] == '^': continue
+      if arr[i + 1][j] != '^': arr[i + 1][j] += row[j]
+      else:
+        arr[i + 1][j - 1] += row[j]
+        arr[i + 1][j + 1] += row[j]
+  sm = 0
+  for j in range(len(arr[-1])):
+    sm += arr[-1][j]
+  return sm
